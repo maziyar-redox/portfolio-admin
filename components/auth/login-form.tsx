@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import * as z from "zod";
 
@@ -19,12 +19,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { FormError, FormSuccess } from "@/components/auth/form-states";
+
 import { SpinnerIcon } from "@/components/svg/spinner";
 import { FaGithub } from "react-icons/fa";
 
 import { LoginSchema } from "@/schema";
 
+import { login } from "@/actions/login";
+
 export function LoginForm() {
+    const [success, setSuccess] = useState<string | undefined>("");
+    const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -34,8 +40,22 @@ export function LoginForm() {
         },
     });
     async function onSubmit(values: z.infer<typeof LoginSchema>) {
-        console.log(values);
-    }
+        setError("");
+        setSuccess("");
+        startTransition(() => {
+            login(values)
+            .then((data) => {
+                if (data?.error) {
+                    form.reset();
+                    setError(data.error);
+                };
+                if (data?.success) {
+                    form.reset();
+                    setSuccess(data.success);
+                };
+            }).catch(() => setError("Something went wrong!"));
+        });
+    };
     return (
         <div className="grid gap-6">
             <Form {...form}>
@@ -90,6 +110,8 @@ export function LoginForm() {
                                 )}
                             />
                         </div>
+                        <FormSuccess message={success} />
+                        <FormError message={error} />
                         <Button disabled={isPending}>
                             {isPending && (
                                 <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />

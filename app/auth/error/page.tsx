@@ -1,5 +1,11 @@
+import { ErrorMessage } from "../_components/error";
+
 export default function ErrorPage() {
     return (
-        <div>fff</div>
+        <>
+            <ErrorMessage
+                message="An unexpected error happend! contact site admin"
+            />
+        </>
     );
 };

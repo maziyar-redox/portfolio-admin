@@ -37,7 +37,8 @@ export function RegisterForm() {
         defaultValues: {
             email: "",
             password: "",
-            userName: ""
+            firstName: "",
+            lastName: ""
         },
     });
     async function onSubmit(values: z.infer<typeof RegisterSchema>) {
@@ -62,29 +63,55 @@ export function RegisterForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="grid gap-2">
-                    <div className="grid gap-1">
-                            <FormField
-                                control={form.control}
-                                name="userName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel htmlFor="userName">
-                                            Name
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                id="userName"
-                                                placeholder="Jhon Doe"
-                                                type="text"
-                                                autoCapitalize="none"
-                                                autoCorrect="off"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <div className="flex flex-row gap-x-2">
+                            <div className="grid gap-1">
+                                <FormField
+                                    control={form.control}
+                                    name="firstName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel htmlFor="firstName">
+                                                First name
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    id="firstName"
+                                                    placeholder="Jhon"
+                                                    type="text"
+                                                    autoCapitalize="none"
+                                                    autoCorrect="off"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="grid gap-1">
+                                <FormField
+                                    control={form.control}
+                                    name="lastName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel htmlFor="lastName">
+                                                Last name
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    id="lastName"
+                                                    placeholder="Doe"
+                                                    type="text"
+                                                    autoCapitalize="none"
+                                                    autoCorrect="off"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
                         <div className="grid gap-1">
                             <FormField

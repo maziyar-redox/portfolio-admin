@@ -33,6 +33,10 @@ export const {
             if (token.role && session.user) {
                 session.user.role = token.role;
             };
+            if (token.firstName && token.lastName) {
+                session.user.firstName = token.firstName;
+                session.user.lastName = token.lastName;
+            };
             return session;
         },
         async jwt({ token }) {
@@ -40,6 +44,8 @@ export const {
             const existingUser = await getUserById(token.sub);
             if (!existingUser) return token;
             token.role = existingUser.role;
+            token.firstName = existingUser.firstName as string;
+            token.lastName = existingUser.lastName as string;
             return token;
         },
     },
@@ -55,5 +61,7 @@ import { UserRole } from "@prisma/client";
 declare module "@auth/core/jwt" {
     interface JWT {
         role?: UserRole;
+        firstName?: string;
+        lastName?: string;
     }
 };

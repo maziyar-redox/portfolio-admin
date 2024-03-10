@@ -20,7 +20,8 @@ enum UserRole {
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
+  firstName     String?
+  lastName      String?
   email         String?   @unique
   image         String?
   password      String?
@@ -45,4 +46,13 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model PassowrdResetToken {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String @unique
+  expires DateTime
+
+  @@unique([email, token])
 }

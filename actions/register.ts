@@ -17,9 +17,9 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
     };
     const usersCount = await getUsersCount();
     if (usersCount && usersCount > 0) {
-        return { error: "Something went wrong!" };
+        return { error: "You cannot create a new user at this time!" };
     };
-    const { email, password, userName } = validatedFields.data;
+    const { email, password, firstName, lastName } = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
@@ -27,7 +27,8 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
     };
     await db.user.create({
         data: {
-            name: userName,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: hashedPassword
         },

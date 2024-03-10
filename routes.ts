@@ -4,7 +4,14 @@
  * @type {string[]}
  */
 
-export const publicRoutes = [];
+export const publicRoutes: string[] = [];
+
+/**
+ * An array of root route for redirecting users
+ * @type {string}
+ */
+
+export const rootRoute = "/";
 
 /**
  * An array of routes that are accessible to the authentication
@@ -13,6 +20,7 @@ export const publicRoutes = [];
  */
 export const authRoutes = [
     "/auth/login",
+    "/auth/register",
     "/auth/error",
     "/auth/reset",
     "/auth/new-password"

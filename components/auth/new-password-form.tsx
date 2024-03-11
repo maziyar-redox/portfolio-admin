@@ -73,6 +73,7 @@ export function NewPassowrdForm() {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                disabled={isPending}
                                                 id="password"
                                                 placeholder="******"
                                                 type="password"

@@ -76,6 +76,7 @@ export function RegisterForm() {
                                             <FormControl>
                                                 <Input
                                                     {...field}
+                                                    disabled={isPending}
                                                     id="firstName"
                                                     placeholder="Jhon"
                                                     type="text"
@@ -100,6 +101,7 @@ export function RegisterForm() {
                                             <FormControl>
                                                 <Input
                                                     {...field}
+                                                    disabled={isPending}
                                                     id="lastName"
                                                     placeholder="Doe"
                                                     type="text"
@@ -125,6 +127,7 @@ export function RegisterForm() {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                disabled={isPending}
                                                 id="email"
                                                 placeholder="name@example.com"
                                                 type="email"
@@ -150,6 +153,7 @@ export function RegisterForm() {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                disabled={isPending}
                                                 id="password"
                                                 placeholder="******"
                                                 type="password"

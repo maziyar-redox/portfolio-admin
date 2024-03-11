@@ -26,7 +26,7 @@ export function Logo({
                 return i * 30
             },
             direction: 'alternate',
-            loop: true
+            loop: false
         });
     };
     function mouseLeaveHandler() {

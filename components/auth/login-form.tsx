@@ -73,6 +73,7 @@ export function LoginForm() {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                disabled={isPending}
                                                 id="email"
                                                 placeholder="name@example.com"
                                                 type="email"
@@ -98,6 +99,7 @@ export function LoginForm() {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                disabled={isPending}
                                                 id="password"
                                                 placeholder="******"
                                                 type="password"

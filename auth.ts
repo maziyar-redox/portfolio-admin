@@ -23,7 +23,18 @@ export const {
             if (account?.provider !== "credentials") {
                 return true;
             };
-            /* TODO: ADD TWO FACTOR */
+            const existingUser = await getUserById(user.id as string);
+            if (existingUser?.isTwoFactorEnabled) {
+                const twoFactorConfirmation = await getTwoFactorConfirmtaion(existingUser.id);
+                if (!twoFactorConfirmation) {
+                    return false;
+                };
+                await db.twoFactorConfirmation.delete({
+                    where: {
+                        id: twoFactorConfirmation.id
+                    },
+                });
+            };
             return true;
         },
         async session({ token, session }) {
@@ -57,6 +68,7 @@ export const {
 import { JWT } from "@auth/core/jwt";
 
 import { UserRole } from "@prisma/client";
+import { getTwoFactorConfirmtaion } from "./data/two-factor-confirmtaion";
 
 declare module "@auth/core/jwt" {
     interface JWT {

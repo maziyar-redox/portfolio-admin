@@ -8,7 +8,8 @@ export const LoginSchema = z.object({
     }),
     password: z.string().min(6, {
         message: "Enter a valid password!"
-    })
+    }),
+    code: z.optional(z.string())
 });
 
 export const RegisterSchema = z.object({

@@ -16,12 +16,19 @@ import {
     FormLabel,
     FormMessage
 } from "@/components/ui/form";
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { FormError, FormSuccess } from "@/components/auth/form-states";
 
 import { SpinnerIcon } from "@/components/svg/spinner";
+
 import { FaGithub } from "react-icons/fa";
 
 import { LoginSchema } from "@/schema";
@@ -29,6 +36,7 @@ import { LoginSchema } from "@/schema";
 import { login } from "@/actions/login";
 
 export function LoginForm() {
+    const [showTwoFactor, setShowTwoFactor] = useState(false);
     const [success, setSuccess] = useState<string | undefined>("");
     const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -36,7 +44,8 @@ export function LoginForm() {
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
-            password: ""
+            password: "",
+            code: ""
         },
     });
     async function onSubmit(values: z.infer<typeof LoginSchema>) {
@@ -46,8 +55,10 @@ export function LoginForm() {
             login(values)
             .then((data) => {
                 if (data?.error) {
-                    form.reset();
                     setError(data.error);
+                };
+                if (data?.twoFactor) {
+                    setShowTwoFactor(true);
                 };
                 /* if (data?.success) {
                     form.reset();
@@ -61,64 +72,103 @@ export function LoginForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="grid gap-2">
-                        <div className="grid gap-1">
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel htmlFor="email">
-                                            Email
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                id="email"
-                                                placeholder="name@example.com"
-                                                type="email"
-                                                autoCapitalize="none"
-                                                autoComplete="email"
-                                                autoCorrect="off"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel htmlFor="password">
-                                            Password
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                id="password"
-                                                placeholder="******"
-                                                type="password"
-                                                autoCapitalize="none"
-                                                autoCorrect="off"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        {!showTwoFactor && (
+                            <>
+                                <div className="grid gap-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel htmlFor="email">
+                                                    Email
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        disabled={isPending}
+                                                        id="email"
+                                                        placeholder="name@example.com"
+                                                        type="email"
+                                                        autoCapitalize="none"
+                                                        autoComplete="email"
+                                                        autoCorrect="off"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="grid gap-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel htmlFor="password">
+                                                    Password
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        disabled={isPending}
+                                                        id="password"
+                                                        placeholder="******"
+                                                        type="password"
+                                                        autoCapitalize="none"
+                                                        autoCorrect="off"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {showTwoFactor && (
+                            <>
+                                <div className="grid gap-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="code"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Enter OTP-Password in field below
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <InputOTP
+                                                        {...field}
+                                                        maxLength={6}
+                                                        render={({ slots }) => (
+                                                            <>
+                                                                <InputOTPGroup className="gap-1.5">
+                                                                    {slots.map((slot, index) => (
+                                                                        <>
+                                                                            <InputOTPSlot className="border rounded-md" key={index} {...slot} />
+                                                                            {index !== slots.length - 1 && <InputOTPSeparator />}
+                                                                        </>
+                                                                    ))}
+                                                                </InputOTPGroup>
+                                                            </>
+                                                        )}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </>
+                        )}
                         <FormSuccess message={success} />
                         <FormError message={error} />
                         <Button disabled={isPending}>
                             {isPending && (
                                 <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
                             )}
-                            Login
+                            {showTwoFactor ? "Submit": "Login"}
                         </Button>
                     </div>
                 </form>

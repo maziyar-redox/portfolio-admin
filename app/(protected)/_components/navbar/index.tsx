@@ -1,3 +1,5 @@
+"use client";
+
 import { Profile } from "./profile";
 
 interface NavbarProps {
@@ -15,7 +17,7 @@ export function Navbar({
 }: NavbarProps) {
     return (
         <>
-            <nav className="flex flex-row-reverse items-center w-full justify-between py-5 pl-8 pr-10 border-b">
+            <nav className="flex flex-row-reverse items-center w-full justify-between py-5 pl-8 pr-5 md:pr-10 border-b">
                 <Profile
                     lastName={lastName}
                     firstName={firstName}

@@ -48,7 +48,7 @@ export function Profile({
                             {firstName.charAt(0)}
                         </AvatarFallback>
                     </Avatar>
-                    <div className="flex flex-col justify-center items-start">
+                    <div className="hidden sm:flex flex-col justify-center items-start">
                         <h1 className="text-white text-sm font-normal">
                             {firstName}
                             {" "}
@@ -60,10 +60,10 @@ export function Profile({
                     </div>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="rounded-xl w-48">
+            <DropdownMenuContent className="rounded-xl w-48 mr-5">
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                        <Link href="dashboard/setting">
+                        <Link href="/dashboard/manage">
                             <LuUserCog2 className="h-5 w-5 mr-4" />
                             <span className="text-xs text-white font-normal">
                                 Manage Account
@@ -72,7 +72,7 @@ export function Profile({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                        <Link href="dashboard/new-password">
+                        <Link href="/dashboard/new-password">
                             <IoKeySharp className="h-5 w-5 mr-4" />
                             <span className="text-xs text-white font-normal">
                                 Change Password

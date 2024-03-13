@@ -4,6 +4,9 @@ import { auth } from "@/auth";
 
 import { Navbar } from "./_components/navbar";
 import { AsideSection } from "./_components/aside";
+import { NavbarWrapper } from "./_components/navbar-wrapper";
+import { CloseButton } from "./_components/close-button";
+import { AsideWrapper } from "./_components/aside-wrapper";
 
 export default async function DashboardLayout({
     children
@@ -18,16 +21,19 @@ export default async function DashboardLayout({
     });
     return (
         <div className="h-full w-full">
-            <div className="fixed top-0 left-0 right-0 flex flex-row-reverse justify-between items-start">
+            <CloseButton />
+            <NavbarWrapper>
                 <Navbar
                     firstName={userInfo?.firstName as string}
                     lastName={userInfo?.lastName as string}
                     profilePic={userInfo?.image as string}
                     role={userInfo?.role as string}
                 />
+            </NavbarWrapper>
+            <AsideWrapper>
                 <AsideSection />
-            </div>
-            <div className="flex items-center justify-between mt-32 mx-60">
+            </AsideWrapper>
+            <div className="flex items-center justify-between mt-28 ml-5 mr-5 md:mr-8 md:ml-60">
                 {children}
             </div>
         </div>

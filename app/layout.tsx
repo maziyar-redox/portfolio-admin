@@ -7,6 +7,7 @@ import "./globals.css";
 /* COMPONENTS */
 import { ThemeProvider } from "@/components/theme-provider";
 import { LayoutWrapper } from "@/components/wrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 const sora = Sora({
   subsets: ["latin"]
@@ -32,6 +33,7 @@ export default function RootLayout({
         >
           <LayoutWrapper>
             {children}
+            <Toaster />
           </LayoutWrapper>
         </ThemeProvider>
       </body>
